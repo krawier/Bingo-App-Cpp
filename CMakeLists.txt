@@ -14,5 +14,7 @@ FetchContent_MakeAvailable(raylib)
 
 
 add_executable(BingoApp main.cpp
-        main.cpp)
+        main.cpp
+        CBingoCell.cpp
+        CBingoCell.h)
 target_link_libraries(BingoApp PRIVATE raylib)
