@@ -105,10 +105,22 @@ int main() {
 
             DrawRectangle(0,0,screenW,screenH, Fade(BLACK, 0.6f));
 
-            const char* winText = "BINGO!!!";
-            int winFontSize = screenW/8;
-            int textWidth = MeasureText(winText,winFontSize);
-            DrawText(winText, (screenW - textWidth) / 2, (screenH - winFontSize) / 2, winFontSize, GOLD);
+
+
+
+            if ((int)(GetTime() * 3) % 2 == 0) {
+                const char* winText = "BINGO!!!";
+                int winFontSize = screenW / 8;
+                int textWidth = MeasureText(winText, winFontSize);
+
+                DrawText(winText, (screenW - textWidth) / 2, (screenH - winFontSize) / 2, winFontSize, GOLD);
+            }
+
+            const char* resetText = "press space to start over";
+            int winFontSize = screenW / 16;
+            DrawText(resetText, (screenW - MeasureText(resetText, 20)) / 2, (screenH / 2) + winFontSize, 20, GOLD);
+
+
 
             if (IsKeyPressed(KEY_SPACE)) {
                 isGameOver = false;

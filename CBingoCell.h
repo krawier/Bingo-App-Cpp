@@ -7,7 +7,7 @@ private:
     std::string word;
     bool isChecked;
     bool isFreeSpace;
-
+    float drawProgress;
 
 public:
 
