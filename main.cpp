@@ -2,6 +2,9 @@
 #include "raylib.h"
 #include <string>
 #include <vector>
+#include <random>
+#include <algorithm>
+#include <ctime>
 #include "CBingoCell.h"
 
 bool CheckBingo(BingoCell board[5][5]) {
@@ -41,24 +44,40 @@ int main() {
 
     BingoCell bingoBoard[5][5];
 
-    // middle one is FREE
-    int wordCount = 1;
-    for (int row =0; row < gridSize; row++) {
-        for (int col =0; col < gridSize; col++) {
+    // std::vector<std::string> wordList = {
+    //     "TRIVIAL CALCULATION", "YOU CAN DO IT AT HOME", "DO WE NEED A BREAK?", "DEATH STARE", "FALLS OVER", "DIES",
+    //     "LET ME STRESS OUT", "INTERVALS FROM HELL", "GOOFY AHH GRAPHIC", "ANY QUESTIONS?",
+    //     "ALL IS CLEAR?", "IMPOSSIBLE", "ATTENDANCE LIST", "MATRIX OF DEATH", "CHOKES", "TOTALLY UNCLEAR GRAPH",
+    //     "IS OLD", "AS YOU MAY REMEMBER", "JUST A MOMENT AGO", "WORD 20", "WORD 21", "WORD 22",
+    //     "WORD 23", "WORD 24"
+    // };
+
+
+    std::vector<std::string> wordList;
+
+    for (int i = 1; i <= 128; i++) {
+        wordList.push_back(std::to_string(i));
+    }
+
+    std::mt19937 g(time(0));
+    std::shuffle(wordList.begin(), wordList.end(), g);
+
+    int wordIndex = 0;
+    for (int row = 0; row < gridSize; row++) {
+        for (int col = 0; col < gridSize; col++) {
 
             if (row == 2 && col == 2) {
-
                 bingoBoard[row][col].Init("FREE", true);
+            } else {
 
-
-            }else {
-                bingoBoard[row][col].Init(std::to_string(wordCount), false);
-                wordCount++;
-
+                bingoBoard[row][col].Init(wordList[wordIndex], false);
+                wordIndex++;
             }
 
         }
     }
+
+
     bool isGameOver = false;
 
     while (!WindowShouldClose()) {
@@ -124,9 +143,21 @@ int main() {
 
             if (IsKeyPressed(KEY_SPACE)) {
                 isGameOver = false;
+
+                std::mt19937 g(time(0));
+                std::shuffle(wordList.begin(), wordList.end(), g);
+
+                int wordIndex = 0;
                 for (int r = 0; r < gridSize; r++) {
                     for (int c = 0; c < gridSize; c++) {
-                        bingoBoard[r][c].Reset();
+
+                        if (r == 2 && c == 2) {
+                            bingoBoard[r][c].Init("FREE", true);
+                        } else {
+                            bingoBoard[r][c].Init(wordList[wordIndex], false);
+                            wordIndex++;
+                        }
+
                     }
                 }
             }

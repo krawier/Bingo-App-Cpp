@@ -36,10 +36,14 @@ void BingoCell::Draw(int x, int y, int size) {
     DrawRectangleLines(x, y, size, size, BLACK);
 
     const char* text = word.c_str();
-    int fontSize = size / 4;
+    int fontSize = size / 8;
     int textWidth = MeasureText(text, fontSize);
-    DrawText(text, x + (size - textWidth) / 2, y + (size - fontSize) / 2, fontSize, DARKBLUE);
 
+    while (textWidth > size - 20 && fontSize > 5) {
+        fontSize--; // Make the font 1 pixel smaller
+        textWidth = MeasureText(text, fontSize); // Measure it again
+    }
+    DrawText(text, x + (size - textWidth) / 2, y + (size - fontSize) / 2, fontSize, DARKBLUE);
     if (isChecked) {
 
         if (drawProgress < 2.0f) {
